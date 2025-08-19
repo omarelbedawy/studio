@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { generatePlantConditions } from '@/ai/flows/generate-plant-conditions';
 import { ConditionsDashboard, ConditionsSkeleton } from '@/components/conditions-dashboard';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { AlertTriangle, Wifi, Thermometer, Droplets, Lightbulb, Wind, Leaf } from 'lucide-react';
+import { AlertTriangle, Wifi, Thermometer, Droplets, Lightbulb, Wind, Leaf, Bug, Clock } from 'lucide-react';
 import { DiseaseDiagnosisCard } from '@/components/disease-diagnosis-card';
 
 async function PlantCareInfo({ plantName }: { plantName: string }) {
@@ -84,6 +84,27 @@ function RealTimeMonitoring() {
     )
 }
 
+function DiseaseStatus() {
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                    <Bug className="text-primary"/>
+                    Disease Status
+                </CardTitle>
+                <CardDescription>Automatic health analysis.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                 <div className="flex items-center justify-center text-center text-muted-foreground space-y-2 flex-col h-full">
+                    <Clock className="w-8 h-8" />
+                    <p className="font-medium">Awaiting first diagnosis</p>
+                    <p className="text-xs">The ESP32 will automatically send a photo for analysis soon.</p>
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
+
 
 export default function DashboardPage({
   searchParams,
@@ -106,7 +127,7 @@ export default function DashboardPage({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             <ConnectionStatus />
             <RealTimeMonitoring />
-            <DiseaseDiagnosisCard />
+            <DiseaseStatus />
         </div>
 
         {plantName ? (

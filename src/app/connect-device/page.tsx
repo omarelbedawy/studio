@@ -1,8 +1,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Wifi } from "lucide-react";
 import Link from "next/link";
 
@@ -30,7 +28,7 @@ export default function ConnectDevicePage({
                 <p>2. On your phone or computer, connect to the Wi-Fi network named <strong>"Green-AI-Device"</strong>.</p>
                 <p>3. Once connected, a captive portal should open. If not, open a browser and go to <strong>192.168.4.1</strong>.</p>
                 <p>4. Enter your home Wi-Fi credentials on the portal to connect the device to your network.</p>
-                <p>5. Once the device is on your network, it will be ready to monitor your plant.</p>
+                <p>5. Once the device is on your network, it will be ready to monitor {plantName}.</p>
             </div>
           
             <Link href={`/dashboard?plantName=${encodeURIComponent(plantName)}`} passHref>
@@ -38,12 +36,6 @@ export default function ConnectDevicePage({
                     Proceed to Dashboard
                 </Button>
             </Link>
-          
-          <div className="mt-4 text-center text-sm">
-            <Link href={`/dashboard?plantName=${encodeURIComponent(plantName)}`} className="underline">
-              Skip and go to dashboard
-            </Link>
-          </div>
         </CardContent>
       </Card>
     </div>

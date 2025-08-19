@@ -58,7 +58,7 @@ export function ConditionsDashboard({ conditions, plantName }: { conditions: Gen
 
       <div className="space-y-6">
         <div>
-          <h3 className="text-xl font-semibold mb-4">Control Thresholds</h3>
+          <h3 className="text-xl font-semibold mb-4">Best Conditions</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <ThresholdCard title="Soil Moisture" icon={Droplets} value={editableConditions.soilDryThreshold} name="soilDryThreshold" unit="%" isEditing={isEditing} />
             <ThresholdCard title="Gas (MQ2)" icon={Wind} value={editableConditions.mq2Threshold} name="mq2Threshold" unit="ppm" isEditing={isEditing} />
@@ -99,7 +99,7 @@ export function ConditionsSkeleton() {
             <CardContent className="space-y-3 pt-2">
               <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-5/6" />
-            </CardContent>
+            </CradContent>
           </Card>
         ))}
       </div>
