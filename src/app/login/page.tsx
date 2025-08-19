@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -27,9 +28,11 @@ export default function LoginPage() {
               <Label htmlFor="password">Password</Label>
               <Input id="password" type="password" required />
             </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
+            <Link href="/plant-search" passHref>
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
+            </Link>
           </form>
           <div className="mt-4 text-center text-sm">
             Don't have an account?{" "}

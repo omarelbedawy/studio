@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -31,9 +32,11 @@ export default function SignupPage() {
               <Label htmlFor="confirm-password">Confirm Password</Label>
               <Input id="confirm-password" type="password" required />
             </div>
-            <Button type="submit" className="w-full">
-              Create Account
-            </Button>
+            <Link href="/plant-search" passHref>
+                <Button type="submit" className="w-full">
+                  Create Account
+                </Button>
+            </Link>
           </form>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}

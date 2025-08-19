@@ -3,7 +3,8 @@ import { Suspense } from 'react';
 import { generatePlantConditions } from '@/ai/flows/generate-plant-conditions';
 import { ConditionsDashboard, ConditionsSkeleton } from '@/components/conditions-dashboard';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { AlertTriangle, Wifi, Thermometer, Droplets, Lightbulb, Wind, Leaf, Bug } from 'lucide-react';
+import { AlertTriangle, Wifi, Thermometer, Droplets, Lightbulb, Wind, Leaf } from 'lucide-react';
+import { DiseaseDiagnosisCard } from '@/components/disease-diagnosis-card';
 
 async function PlantCareInfo({ plantName }: { plantName: string }) {
   try {
@@ -42,30 +43,12 @@ function ConnectionStatus() {
             <CardContent>
                 <div className="flex items-center gap-2">
                     <span className="relative flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                     </span>
-                    <span className="font-semibold text-green-600">Connected</span>
+                    <span className="font-semibold text-red-600">Disconnected</span>
                 </div>
-            </CardContent>
-        </Card>
-    )
-}
-
-function DiseaseStatus() {
-    return (
-        <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    <Bug className="text-primary"/>
-                    Disease Diagnosis
-                </CardTitle>
-                 <CardDescription>AI-powered plant health analysis.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-                <p className="font-semibold text-muted-foreground">Dummy Status: <span className="font-bold text-green-600">Healthy</span></p>
-                <p className="text-sm text-muted-foreground">No disease detected based on the latest image analysis. Keep up the great work!</p>
-                 <p className="text-xs text-center pt-4 text-muted-foreground">[Awaiting image from ESP32]</p>
+                 <p className="text-xs text-muted-foreground pt-2">Awaiting connection from ESP32 device.</p>
             </CardContent>
         </Card>
     )
@@ -81,21 +64,21 @@ function RealTimeMonitoring() {
             <CardContent className="grid grid-cols-2 gap-4">
                 <div className="flex items-center gap-2">
                     <Thermometer className="text-primary"/>
-                    <p>Temperature: <span className="font-bold">24°C</span></p>
+                    <p>Temperature: <span className="font-bold">--°C</span></p>
                 </div>
                 <div className="flex items-center gap-2">
                     <Droplets className="text-primary"/>
-                    <p>Moisture: <span className="font-bold">65%</span></p>
+                    <p>Moisture: <span className="font-bold">--%</span></p>
                 </div>
                 <div className="flex items-center gap-2">
                     <Lightbulb className="text-primary"/>
-                    <p>Light: <span className="font-bold">800 lux</span></p>
+                    <p>Light: <span className="font-bold">-- lux</span></p>
                 </div>
                 <div className="flex items-center gap-2">
                     <Wind className="text-primary"/>
-                    <p>Gas: <span className="font-bold">50 ppm</span></p>
+                    <p>Gas: <span className="font-bold">-- ppm</span></p>
                 </div>
-                 <p className="text-xs col-span-2 text-center pt-4 text-muted-foreground">[Using dummy data]</p>
+                 <p className="text-xs col-span-2 text-center pt-4 text-muted-foreground">[Awaiting data from ESP32]</p>
             </CardContent>
         </Card>
     )
@@ -123,7 +106,7 @@ export default function DashboardPage({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             <ConnectionStatus />
             <RealTimeMonitoring />
-            <DiseaseStatus />
+            <DiseaseDiagnosisCard />
         </div>
 
         {plantName ? (
