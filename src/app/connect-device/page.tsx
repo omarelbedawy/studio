@@ -30,24 +30,17 @@ export default function ConnectDevicePage({
                 <p>2. On your phone or computer, connect to the Wi-Fi network named <strong>"Green-AI-Device"</strong>.</p>
                 <p>3. Once connected, a captive portal should open. If not, open a browser and go to <strong>192.168.4.1</strong>.</p>
                 <p>4. Enter your home Wi-Fi credentials on the portal to connect the device to your network.</p>
+                <p>5. Once the device is on your network, it will be ready to monitor your plant.</p>
             </div>
-          <form className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="ssid">Wi-Fi Network (SSID)</Label>
-              <Input id="ssid" placeholder="Your Wi-Fi Name" required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required />
-            </div>
-            <Link href={`/plant-search?plantName=${encodeURIComponent(plantName)}`} passHref>
-                <Button asChild className="w-full">
-                    <p>Proceed to Dashboard</p>
+          
+            <Link href={`/dashboard?plantName=${encodeURIComponent(plantName)}`} passHref>
+                <Button className="w-full">
+                    Proceed to Dashboard
                 </Button>
             </Link>
-          </form>
+          
           <div className="mt-4 text-center text-sm">
-            <Link href="/plant-search" className="underline">
+            <Link href={`/dashboard?plantName=${encodeURIComponent(plantName)}`} className="underline">
               Skip and go to dashboard
             </Link>
           </div>
