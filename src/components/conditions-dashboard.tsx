@@ -41,7 +41,7 @@ export function ConditionsDashboard({ conditions, plantName }: { conditions: Gen
   );
 
   return (
-    <div className="w-full max-w-4xl mx-auto mt-12">
+    <div className="w-full max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-3xl md:text-4xl font-headline font-bold text-center capitalize">{plantName} Conditions</h2>
         {isEditing ? (
@@ -87,7 +87,7 @@ export function ConditionsDashboard({ conditions, plantName }: { conditions: Gen
 
 export function ConditionsSkeleton() {
   return (
-    <div className="w-full max-w-4xl mx-auto mt-12">
+    <div className="w-full max-w-4xl mx-auto">
       <Skeleton className="h-10 w-3/4 md:w-1/2 mx-auto mb-8" />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[...Array(4)].map((_, i) => (
@@ -99,7 +99,7 @@ export function ConditionsSkeleton() {
             <CardContent className="space-y-3 pt-2">
               <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-5/6" />
-            </CradContent>
+            </CardContent>
           </Card>
         ))}
       </div>
