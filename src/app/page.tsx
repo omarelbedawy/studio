@@ -18,11 +18,11 @@ export default function WelcomePage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="p-8 pt-0 flex flex-col gap-4">
-            <Link href="/login" passHref>
-              <Button className="w-full py-6 text-lg">Login</Button>
+            <Link href="/login" passHref legacyBehavior>
+              <Button asChild className="w-full py-6 text-lg"><a>Login</a></Button>
             </Link>
-            <Link href="/signup" passHref>
-              <Button variant="outline" className="w-full py-6 text-lg">Sign Up</Button>
+            <Link href="/signup" passHref legacyBehavior>
+              <Button asChild variant="outline" className="w-full py-6 text-lg"><a>Sign Up</a></Button>
             </Link>
           </CardContent>
         </Card>
