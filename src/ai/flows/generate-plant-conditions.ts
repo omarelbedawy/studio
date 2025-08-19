@@ -17,7 +17,11 @@ const GeneratePlantConditionsInputSchema = z.object({
 export type GeneratePlantConditionsInput = z.infer<typeof GeneratePlantConditionsInputSchema>;
 
 const GeneratePlantConditionsOutputSchema = z.object({
-  conditions: z.string().describe('The best growing conditions for the plant.'),
+  soilDryThreshold: z.number().describe('The soil moisture threshold to trigger watering.'),
+  mq2Threshold: z.number().describe('The gas sensor threshold to trigger the fan.'),
+  tempThreshold: z.number().describe('The temperature threshold to trigger the fan.'),
+  lightThreshold: z.number().describe('The light level threshold to trigger the grow light.'),
+  enrichment: z.string().describe('General enrichment information about the plant, including sunlight, watering, soil, temperature, and humidity.'),
 });
 export type GeneratePlantConditionsOutput = z.infer<typeof GeneratePlantConditionsOutputSchema>;
 
@@ -29,7 +33,15 @@ const generatePlantConditionsPrompt = ai.definePrompt({
   name: 'generatePlantConditionsPrompt',
   input: {schema: GeneratePlantConditionsInputSchema},
   output: {schema: GeneratePlantConditionsOutputSchema},
-  prompt: `You are an expert botanist. A user has requested information about the best growing conditions for the plant: {{{plantName}}}.\n\nProvide specific and practical advice regarding sunlight, watering, soil type, temperature, and humidity. Only include conditions that are pertinent and likely to affect plant health.`, 
+  prompt: `You are an expert botanist and IoT farming engineer. A user has requested information for the plant: {{{plantName}}}.
+
+Provide the following control thresholds for an automated system:
+- SOIL_DRY_THRESHOLD: A numerical value for soil moisture (e.g., percentage) below which a pump should be activated.
+- MQ2_THRESHOLD: A numerical value (e.g., in ppm) for a gas sensor that would trigger a fan for ventilation.
+- TEMP_THRESHOLD: A numerical value for temperature (in Celsius) above which a fan should be activated.
+- LIGHT_THRESHOLD: A numerical value for light level (e.g., in lux) below which a grow light should be activated.
+
+Additionally, provide general enrichment information for the plant, covering ideal conditions for sunlight, watering frequency, soil type, temperature range, and humidity. Keep this information concise.`,
 });
 
 const generatePlantConditionsFlow = ai.defineFlow(

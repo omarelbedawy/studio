@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'PlantWise',
+  title: 'Green-AI',
   description: 'AI-powered plant care guide',
 };
 

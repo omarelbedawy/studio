@@ -12,10 +12,10 @@ import { useFormStatus } from 'react-dom';
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" disabled={pending} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-6 text-lg">
+    <Button type="submit" disabled={pending} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-lg">
       {pending ? (
         <>
-          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-accent-foreground mr-3"></div>
+          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-foreground mr-3"></div>
           Generating...
         </>
       ) : (
@@ -34,7 +34,7 @@ export function PlantForm() {
       <CardHeader className="text-center p-8">
         <div className="flex items-center justify-center gap-3 mb-2">
           <Leaf className="w-10 h-10 text-primary" />
-          <h1 className="text-5xl font-headline font-bold text-foreground">PlantWise</h1>
+          <h1 className="text-5xl font-headline font-bold text-foreground">Green-AI</h1>
         </div>
         <CardDescription className="text-base text-muted-foreground">
           Discover the ideal growing conditions for any plant, powered by AI.

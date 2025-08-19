@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { generatePlantConditions } from '@/ai/flows/generate-plant-conditions';
+import { generatePlantConditions, GeneratePlantConditionsOutput } from '@/ai/flows/generate-plant-conditions';
 import { ConditionsDashboard, ConditionsSkeleton } from '@/components/conditions-dashboard';
 import { PlantForm } from '@/components/plant-form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,7 +8,7 @@ import { AlertTriangle } from 'lucide-react';
 async function PlantConditions({ plantName }: { plantName: string }) {
   try {
     const data = await generatePlantConditions({ plantName });
-    return <ConditionsDashboard conditions={data.conditions} plantName={plantName} />;
+    return <ConditionsDashboard conditions={data} plantName={plantName} />;
   } catch (error) {
     console.error('Failed to generate plant conditions:', error);
     return (
