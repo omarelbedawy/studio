@@ -76,47 +76,6 @@ export function AgriChatbot({ diagnosis, plantName }: AgriChatbotProps) {
         }
     };
 
-    const PromptStarters = () => {
-        const starters = [];
-        if (diagnosis && !diagnosis.isHealthy) {
-            starters.push(`Tell me more about ${diagnosis.disease}.`);
-            starters.push(`How do I apply the remedy for ${diagnosis.disease}?`);
-        }
-        if (plantName) {
-            starters.push(`Give me general care tips for a ${plantName}.`);
-            starters.push(`What are common pests for a ${plantName}?`);
-        } else {
-            starters.push("What are signs of overwatering in plants?");
-        }
-
-        if (starters.length === 0) return null;
-
-        // Show prompt starters only if it's the beginning of the conversation.
-        if (messages.length > 1) return null;
-
-        return (
-            <div className="p-4 border-t">
-                <h4 className="text-sm font-semibold mb-2 flex items-center gap-2 text-muted-foreground">
-                    <Sparkles className="w-4 h-4 text-primary" />
-                    Suggestions
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                    {starters.map((starter, i) => (
-                        <Button
-                            key={i}
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleSend(starter)}
-                            className="text-xs h-auto py-1 px-2"
-                        >
-                            {starter}
-                        </Button>
-                    ))}
-                </div>
-            </div>
-        )
-    }
-
     return (
         <>
             <div className="fixed bottom-6 right-6 z-50">
@@ -176,7 +135,6 @@ export function AgriChatbot({ diagnosis, plantName }: AgriChatbotProps) {
                         </CardContent>
                         {language && (
                            <>
-                            <PromptStarters />
                             <div className="p-4 border-t bg-background flex items-start gap-2">
                                 <TextareaAutosize
                                     value={input}
