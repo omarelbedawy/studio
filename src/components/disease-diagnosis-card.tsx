@@ -8,12 +8,12 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { diagnosePlant } from '@/actions/search';
 import type { DiagnosePlantOutput } from '@/ai/flows/diagnose-plant';
-import { Bug, Upload, Leaf, ShieldCheck, ShieldAlert } from 'lucide-react';
+import { Bug, Upload, Leaf, ShieldCheck, ShieldAlert, Clock } from 'lucide-react';
 import Image from 'next/image';
 
 function SubmitButton() {
   return (
-    <Button type="submit" className="w-full mt-2">
+    <Button type="submit" className="w-full mt-2 transition-transform hover:scale-105">
       <Bug className="mr-2 h-4 w-4" />
       Diagnose Plant
     </Button>
@@ -76,29 +76,55 @@ export function DiseaseDiagnosisCard() {
 
   const triggerFileSelect = () => fileInputRef.current?.click();
 
+  // This component now checks for a diagnosis from the ESP32
+  // For now, it will show a placeholder. Later this can be updated to show real data.
+  const hasAutomatedDiagnosis = false; // This would be true if we had a diagnosis from the ESP
+
+  if (hasAutomatedDiagnosis) {
+      // Render the diagnosis from the ESP32
+      return (
+           <Card className="shadow-lg hover:shadow-xl transition-all duration-300">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-3">
+                        <Bug className="text-primary"/>
+                        Disease Status
+                    </CardTitle>
+                    <CardDescription>Latest automated health analysis.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    {/* Logic to display the latest diagnosis would go here */}
+                </CardContent>
+           </Card>
+      )
+  }
+
   return (
-    <Card>
+    <Card className="shadow-lg hover:shadow-xl transition-all duration-300">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-3">
           <Bug className="text-primary" />
-          Disease Diagnosis
+          Disease Status
         </CardTitle>
-        <CardDescription>AI-powered plant health analysis.</CardDescription>
+        <CardDescription>Automatic health analysis from ESP32.</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <form onSubmit={handleFormSubmit}>
+      <CardContent className="space-y-4 text-center">
+        <Clock className="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600" />
+        <p className="font-medium text-muted-foreground">Awaiting first diagnosis</p>
+        <p className="text-xs text-muted-foreground">The ESP32 will automatically send a photo for analysis. You can also manually upload a photo for an instant check-up.</p>
+        
+        <form onSubmit={handleFormSubmit} className="pt-2">
           <Input
             id="photo"
             name="photo"
             type="file"
             accept="image/*"
-            ref={fileInputRef}
+            ref={fileInputref}
             onChange={handleFileChange}
             className="hidden"
           />
-          <Button type="button" variant="outline" className="w-full" onClick={triggerFileSelect}>
+          <Button type="button" variant="outline" size="sm" className="w-auto transition-transform hover:scale-105" onClick={triggerFileSelect}>
             <Upload className="mr-2 h-4 w-4" />
-            {previewUrl ? 'Change Photo' : 'Upload Photo'}
+            {previewUrl ? 'Change Photo for Manual Check' : 'Manual Diagnosis'}
           </Button>
 
           {previewUrl && (
@@ -120,13 +146,13 @@ export function DiseaseDiagnosisCard() {
         {error && <p className="text-destructive text-sm font-medium">{error}</p>}
 
         {diagnosis && (
-          <div className="pt-4 space-y-3">
+          <div className="pt-4 space-y-3 text-left">
              <h4 className="font-semibold flex items-center gap-2">
                 {diagnosis.isHealthy ? 
                     <ShieldCheck className="text-green-500"/> : 
                     <ShieldAlert className="text-destructive"/>
                 }
-                Diagnosis Result
+                Manual Diagnosis Result
             </h4>
             <div className={`p-3 rounded-md ${diagnosis.isHealthy ? 'bg-green-100 dark:bg-green-900/30' : 'bg-red-100 dark:bg-red-900/30'}`}>
                 <p><strong>Status:</strong> <span className={diagnosis.isHealthy ? 'text-green-600 font-bold' : 'text-destructive font-bold'}>{diagnosis.isHealthy ? 'Healthy' : 'Diseased'}</span></p>
@@ -138,13 +164,6 @@ export function DiseaseDiagnosisCard() {
                 )}
             </div>
           </div>
-        )}
-
-        {!previewUrl && !isDiagnosing && (
-            <div className="text-center text-sm text-muted-foreground pt-4">
-                <Leaf className="mx-auto h-8 w-8 text-gray-300" />
-                <p>Upload a photo to begin diagnosis.</p>
-            </div>
         )}
       </CardContent>
     </Card>
