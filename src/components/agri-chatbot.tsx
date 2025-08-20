@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -179,7 +178,7 @@ export function AgriChatbot({ diagnosis, plantName }: AgriChatbotProps) {
                            <>
                             <PromptStarters />
                             <div className="p-4 border-t bg-background flex items-start gap-2">
-                                <Textarea
+                                <TextareaAutosize
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     onKeyDown={(e) => {
@@ -189,8 +188,9 @@ export function AgriChatbot({ diagnosis, plantName }: AgriChatbotProps) {
                                         }
                                     }}
                                     placeholder="Ask about anything..."
-                                    className="resize-none"
-                                    rows={1}
+                                    className="w-full resize-none rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                    minRows={1}
+                                    maxRows={5}
                                 />
                                 <Button onClick={() => handleSend()} size="icon" disabled={isLoading || !input.trim()} className="self-end">
                                     <Send className="h-5 w-5" />
