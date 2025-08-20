@@ -10,7 +10,7 @@ import { Logo } from '@/components/logo';
 import { useSearchParams } from 'next/navigation';
 import { DiseaseDiagnosisCard } from '@/components/disease-diagnosis-card';
 import { AgriChatbot } from '@/components/agri-chatbot';
-import type { DiagnosePlantOutput } from '@/ai/flows/diagnose-plant';
+import type { DiagnosePlantOutput } from '@/ai/flows/agri-chat';
 
 function PlantCareInfoInternal({ plantName }: { plantName: string }) {
     const [conditions, setConditions] = useState<GeneratePlantConditionsOutput | null>(null);

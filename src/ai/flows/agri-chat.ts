@@ -10,7 +10,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { DiagnosePlantOutputSchema } from './diagnose-plant';
+
+export const DiagnosePlantOutputSchema = z.object({
+  isHealthy: z.boolean().describe('Whether or not the plant is healthy.'),
+  disease: z.string().describe("The common name of the disease if the plant is not healthy, otherwise 'None'."),
+  remedy: z.string().describe('A suggested remedy if the plant is not healthy.')
+});
+export type DiagnosePlantOutput = z.infer<typeof DiagnosePlantOutputSchema>;
 
 const MessageSchema = z.object({
     role: z.enum(['user', 'model']),

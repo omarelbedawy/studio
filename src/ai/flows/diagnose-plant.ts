@@ -10,6 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import type { DiagnosePlantOutput } from './agri-chat';
 
 const DiagnosePlantInputSchema = z.object({
   photoDataUri: z
@@ -18,14 +19,13 @@ const DiagnosePlantInputSchema = z.object({
       "A photo of a plant, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
 });
-export type DiagnosePlantInput = z.infer<typeof DiagnosePlantInputSchema>;
+type DiagnosePlantInput = z.infer<typeof DiagnosePlantInputSchema>;
 
-export const DiagnosePlantOutputSchema = z.object({
+const DiagnosePlantOutputSchema = z.object({
   isHealthy: z.boolean().describe('Whether or not the plant is healthy.'),
   disease: z.string().describe("The common name of the disease if the plant is not healthy, otherwise 'None'."),
   remedy: z.string().describe('A suggested remedy if the plant is not healthy.')
 });
-export type DiagnosePlantOutput = z.infer<typeof DiagnosePlantOutputSchema>;
 
 export async function diagnosePlant(input: DiagnosePlantInput): Promise<DiagnosePlantOutput> {
   return diagnosePlantFlow(input);
