@@ -118,7 +118,7 @@ export function DiseaseDiagnosisCard() {
             name="photo"
             type="file"
             accept="image/*"
-            ref={fileInputref}
+            ref={fileInputRef}
             onChange={handleFileChange}
             className="hidden"
           />
