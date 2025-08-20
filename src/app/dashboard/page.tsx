@@ -3,8 +3,8 @@ import { Suspense } from 'react';
 import { generatePlantConditions } from '@/ai/flows/generate-plant-conditions';
 import { ConditionsDashboard, ConditionsSkeleton } from '@/components/conditions-dashboard';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { AlertTriangle, Wifi, Thermometer, Droplets, Lightbulb, Wind, Leaf, Bug, Clock } from 'lucide-react';
-import { DiseaseDiagnosisCard } from '@/components/disease-diagnosis-card';
+import { AlertTriangle, Wifi, Thermometer, Droplets, Lightbulb, Wind, Bug, Clock } from 'lucide-react';
+import { Logo } from '@/components/logo';
 
 async function PlantCareInfo({ plantName }: { plantName: string }) {
   try {
@@ -118,7 +118,7 @@ export default function DashboardPage({
          <header className="bg-background shadow-sm">
             <div className="container mx-auto p-4 flex justify-between items-center">
                  <div className="flex items-center gap-3">
-                    <Leaf className="w-8 h-8 text-primary" />
+                    <Logo className="w-8 h-8 text-primary" />
                     <h1 className="text-3xl font-headline font-bold text-foreground">Green-AI Dashboard</h1>
                 </div>
             </div>

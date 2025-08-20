@@ -5,7 +5,7 @@ import { searchPlant } from '@/actions/search';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Leaf } from 'lucide-react';
+import { Logo } from '@/components/logo';
 import { useSearchParams } from 'next/navigation';
 import { useFormStatus } from 'react-dom';
 
@@ -33,7 +33,7 @@ export function PlantForm() {
     <Card className="w-full max-w-md mx-auto shadow-lg bg-card border-none">
       <CardHeader className="text-center p-8">
         <div className="flex items-center justify-center gap-3 mb-2">
-          <Leaf className="w-10 h-10 text-primary" />
+          <Logo className="w-10 h-10 text-primary" />
           <h1 className="text-5xl font-headline font-bold text-foreground">Green-AI</h1>
         </div>
         <CardDescription className="text-base text-muted-foreground">
