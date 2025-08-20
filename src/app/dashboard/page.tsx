@@ -5,10 +5,11 @@ import { Suspense, useState, useEffect } from 'react';
 import { generatePlantConditions } from '@/ai/flows/generate-plant-conditions';
 import { ConditionsDashboard, ConditionsSkeleton } from '@/components/conditions-dashboard';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { AlertTriangle, Wifi, Thermometer, Droplets, Lightbulb, Wind, Bug, Clock, Leaf } from 'lucide-react';
+import { AlertTriangle, Wifi, Thermometer, Droplets, Lightbulb, Wind, Leaf } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import { useSearchParams } from 'next/navigation';
 import { DiseaseDiagnosisCard } from '@/components/disease-diagnosis-card';
+import { AgriChatbot } from '@/components/agri-chatbot';
 
 function PlantCareInfoInternal({ plantName }: { plantName: string }) {
     const [conditions, setConditions] = useState(null);
@@ -173,6 +174,7 @@ function DashboardPageContent() {
             </Card>
         )}
       </main>
+      <AgriChatbot />
     </div>
   );
 }
