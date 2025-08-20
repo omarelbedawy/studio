@@ -4,7 +4,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { MessageSquare, Send, X, Bot, User, Languages, Loader2, Sparkles } from 'lucide-react';
 import { chat } from '@/ai/flows/agri-chat';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -141,8 +141,8 @@ export function AgriChatbot({ diagnosis, plantName }: AgriChatbotProps) {
                                <span className="sr-only">Change Language</span>
                            </Button>
                         </CardHeader>
-                        <CardContent className="flex-1">
-                            <div ref={scrollAreaRef} className="h-96 overflow-y-auto pr-4 space-y-4">
+                        <CardContent className="flex-1 p-0">
+                            <div ref={scrollAreaRef} className="h-96 overflow-y-auto p-6 space-y-4">
                                 {!language ? (
                                     <div className="text-center p-4">
                                         <h3 className="font-semibold mb-4">Please select your language:</h3>
@@ -178,8 +178,8 @@ export function AgriChatbot({ diagnosis, plantName }: AgriChatbotProps) {
                         {language && (
                            <>
                             <PromptStarters />
-                            <div className="p-4 border-t flex items-center gap-2">
-                                <TextareaAutosize
+                            <div className="p-4 border-t bg-background flex items-start gap-2">
+                                <Textarea
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     onKeyDown={(e) => {
@@ -189,10 +189,10 @@ export function AgriChatbot({ diagnosis, plantName }: AgriChatbotProps) {
                                         }
                                     }}
                                     placeholder="Ask about anything..."
-                                    className="w-full bg-background"
-                                    maxRows={5}
+                                    className="resize-none"
+                                    rows={1}
                                 />
-                                <Button onClick={() => handleSend()} size="icon" disabled={isLoading || !input.trim()}>
+                                <Button onClick={() => handleSend()} size="icon" disabled={isLoading || !input.trim()} className="self-end">
                                     <Send className="h-5 w-5" />
                                     <span className="sr-only">Send</span>
                                 </Button>
