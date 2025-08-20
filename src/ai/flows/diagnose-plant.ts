@@ -4,28 +4,12 @@
  * @fileOverview A plant problem diagnosis AI agent.
  *
  * - diagnosePlant - A function that handles the plant diagnosis process.
- * - DiagnosePlantInput - The input type for the diagnosePlant function.
- * - DiagnosePlantOutput - The return type for the diagnosePlant function.
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
-import type { DiagnosePlantOutput } from './agri-chat';
+import type { DiagnosePlantInput, DiagnosePlantOutput } from '@/ai/types';
+import { DiagnosePlantInputSchema, DiagnosePlantOutputSchema } from '@/ai/types';
 
-const DiagnosePlantInputSchema = z.object({
-  photoDataUri: z
-    .string()
-    .describe(
-      "A photo of a plant, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-});
-type DiagnosePlantInput = z.infer<typeof DiagnosePlantInputSchema>;
-
-const DiagnosePlantOutputSchema = z.object({
-  isHealthy: z.boolean().describe('Whether or not the plant is healthy.'),
-  disease: z.string().describe("The common name of the disease if the plant is not healthy, otherwise 'None'."),
-  remedy: z.string().describe('A suggested remedy if the plant is not healthy.')
-});
 
 export async function diagnosePlant(input: DiagnosePlantInput): Promise<DiagnosePlantOutput> {
   return diagnosePlantFlow(input);

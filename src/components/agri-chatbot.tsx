@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { MessageSquare, Send, X, Bot, User, Languages, Loader2 } from 'lucide-react';
 import { chat } from '@/ai/flows/agri-chat';
 import TextareaAutosize from 'react-textarea-autosize';
-import type { DiagnosePlantOutput } from '@/ai/flows/diagnose-plant';
+import type { DiagnosePlantOutput } from '@/ai/types';
 
 type Message = {
     role: 'user' | 'model';

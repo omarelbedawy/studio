@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { diagnosePlant } from '@/actions/search';
-import type { DiagnosePlantOutput } from '@/ai/flows/agri-chat';
+import type { DiagnosePlantOutput } from '@/ai/types';
 import { Bug, Upload, Leaf, ShieldCheck, ShieldAlert, Clock } from 'lucide-react';
 import Image from 'next/image';
 

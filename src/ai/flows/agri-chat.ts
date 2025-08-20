@@ -4,37 +4,11 @@
  * @fileOverview A conversational AI agent for agricultural topics.
  * 
  * - chat - A function that handles the conversation.
- * - AgriChatInput - The input type for the chat function.
- * - AgriChatOutput - The return type for the chat function.
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
-
-export const DiagnosePlantOutputSchema = z.object({
-  isHealthy: z.boolean().describe('Whether or not the plant is healthy.'),
-  disease: z.string().describe("The common name of the disease if the plant is not healthy, otherwise 'None'."),
-  remedy: z.string().describe('A suggested remedy if the plant is not healthy.')
-});
-export type DiagnosePlantOutput = z.infer<typeof DiagnosePlantOutputSchema>;
-
-const MessageSchema = z.object({
-    role: z.enum(['user', 'model']),
-    content: z.string(),
-});
-
-const AgriChatInputSchema = z.object({
-  language: z.string().describe('The language for the conversation.'),
-  history: z.array(MessageSchema).describe('The conversation history.'),
-  message: z.string().describe('The latest user message.'),
-  diagnosis: DiagnosePlantOutputSchema.nullable().describe('The current plant diagnosis, if available.'),
-});
-export type AgriChatInput = z.infer<typeof AgriChatInputSchema>;
-
-const AgriChatOutputSchema = z.object({
-  response: z.string().describe('The AI model\'s response.'),
-});
-export type AgriChatOutput = z.infer<typeof AgriChatOutputSchema>;
+import type { AgriChatInput, AgriChatOutput } from '@/ai/types';
+import { AgriChatInputSchema, AgriChatOutputSchema } from '@/ai/types';
 
 
 export async function chat(input: AgriChatInput): Promise<AgriChatOutput> {
