@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { MessageSquare, Send, X, Bot, User, Languages, Loader2 } from 'lucide-react';
 import { chat } from '@/ai/flows/agri-chat';
 import TextareaAutosize from 'react-textarea-autosize';
+import type { DiagnosePlantOutput } from '@/ai/flows/diagnose-plant';
 
 type Message = {
     role: 'user' | 'model';
@@ -18,7 +19,11 @@ const languages = [
     'English', 'Spanish', 'French', 'German', 'Chinese', 'Japanese', 'Arabic', 'Hindi'
 ];
 
-export function AgriChatbot() {
+type AgriChatbotProps = {
+    diagnosis: DiagnosePlantOutput | null;
+}
+
+export function AgriChatbot({ diagnosis }: AgriChatbotProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -57,6 +62,7 @@ export function AgriChatbot() {
                 language,
                 history,
                 message: input,
+                diagnosis,
             });
             const modelMessage: Message = { role: 'model', content: response.response };
             setMessages(prev => [...prev, modelMessage]);

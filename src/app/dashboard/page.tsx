@@ -2,7 +2,7 @@
 'use client';
 
 import { Suspense, useState, useEffect } from 'react';
-import { generatePlantConditions } from '@/ai/flows/generate-plant-conditions';
+import { generatePlantConditions, type GeneratePlantConditionsOutput } from '@/ai/flows/generate-plant-conditions';
 import { ConditionsDashboard, ConditionsSkeleton } from '@/components/conditions-dashboard';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { AlertTriangle, Wifi, Thermometer, Droplets, Lightbulb, Wind, Leaf } from 'lucide-react';
@@ -10,9 +10,10 @@ import { Logo } from '@/components/logo';
 import { useSearchParams } from 'next/navigation';
 import { DiseaseDiagnosisCard } from '@/components/disease-diagnosis-card';
 import { AgriChatbot } from '@/components/agri-chatbot';
+import type { DiagnosePlantOutput } from '@/ai/flows/diagnose-plant';
 
 function PlantCareInfoInternal({ plantName }: { plantName: string }) {
-    const [conditions, setConditions] = useState(null);
+    const [conditions, setConditions] = useState<GeneratePlantConditionsOutput | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -134,6 +135,8 @@ function RealTimeMonitoring() {
 function DashboardPageContent() {
   const searchParams = useSearchParams();
   const plantName = searchParams?.get('plantName');
+  const [diagnosis, setDiagnosis] = useState<DiagnosePlantOutput | null>(null);
+
 
   return (
     <div className="min-h-screen bg-muted/40 text-foreground font-body">
@@ -155,7 +158,10 @@ function DashboardPageContent() {
                 <RealTimeMonitoring />
             </div>
             <div className="row-start-1 xl:row-auto animate-fade-in" style={{ animationDelay: '200ms' }}>
-                 <DiseaseDiagnosisCard />
+                 <DiseaseDiagnosisCard 
+                    diagnosis={diagnosis} 
+                    onDiagnose={setDiagnosis} 
+                 />
             </div>
         </div>
 
@@ -174,7 +180,7 @@ function DashboardPageContent() {
             </Card>
         )}
       </main>
-      <AgriChatbot />
+      <AgriChatbot diagnosis={diagnosis} />
     </div>
   );
 }

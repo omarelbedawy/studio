@@ -20,7 +20,7 @@ const DiagnosePlantInputSchema = z.object({
 });
 export type DiagnosePlantInput = z.infer<typeof DiagnosePlantInputSchema>;
 
-const DiagnosePlantOutputSchema = z.object({
+export const DiagnosePlantOutputSchema = z.object({
   isHealthy: z.boolean().describe('Whether or not the plant is healthy.'),
   disease: z.string().describe("The common name of the disease if the plant is not healthy, otherwise 'None'."),
   remedy: z.string().describe('A suggested remedy if the plant is not healthy.')

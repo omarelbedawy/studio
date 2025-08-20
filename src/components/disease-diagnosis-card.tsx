@@ -20,9 +20,13 @@ function SubmitButton() {
   );
 }
 
-export function DiseaseDiagnosisCard() {
+type DiseaseDiagnosisCardProps = {
+    diagnosis: DiagnosePlantOutput | null;
+    onDiagnose: (diagnosis: DiagnosePlantOutput | null) => void;
+};
+
+export function DiseaseDiagnosisCard({ diagnosis, onDiagnose }: DiseaseDiagnosisCardProps) {
   const { toast } = useToast();
-  const [diagnosis, setDiagnosis] = useState<DiagnosePlantOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isDiagnosing, setIsDiagnosing] = useState(false);
@@ -36,7 +40,7 @@ export function DiseaseDiagnosisCard() {
         setPreviewUrl(reader.result as string);
       };
       reader.readAsDataURL(file);
-      setDiagnosis(null);
+      onDiagnose(null);
       setError(null);
     }
   };
@@ -57,11 +61,11 @@ export function DiseaseDiagnosisCard() {
 
     setIsDiagnosing(true);
     setError(null);
-    setDiagnosis(null);
+    onDiagnose(null);
 
     try {
       const result = await diagnosePlant(formData);
-      setDiagnosis(result);
+      onDiagnose(result);
     } catch (e: any) {
       setError('An error occurred during diagnosis. Please try again.');
       toast({
@@ -76,12 +80,9 @@ export function DiseaseDiagnosisCard() {
 
   const triggerFileSelect = () => fileInputRef.current?.click();
 
-  // This component now checks for a diagnosis from the ESP32
-  // For now, it will show a placeholder. Later this can be updated to show real data.
-  const hasAutomatedDiagnosis = false; // This would be true if we had a diagnosis from the ESP
+  const hasAutomatedDiagnosis = false; 
 
   if (hasAutomatedDiagnosis) {
-      // Render the diagnosis from the ESP32
       return (
            <Card className="shadow-lg hover:shadow-xl transition-all duration-300">
                 <CardHeader>
@@ -92,7 +93,6 @@ export function DiseaseDiagnosisCard() {
                     <CardDescription>Latest automated health analysis.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    {/* Logic to display the latest diagnosis would go here */}
                 </CardContent>
            </Card>
       )
