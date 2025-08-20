@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { MessageSquare, Send, X, Bot, User, Languages, Loader2 } from 'lucide-react';
+import { MessageSquare, Send, X, Bot, User, Languages, Loader2, Sparkles } from 'lucide-react';
 import { chat } from '@/ai/flows/agri-chat';
 import TextareaAutosize from 'react-textarea-autosize';
 import type { DiagnosePlantOutput } from '@/ai/types';
@@ -21,9 +21,10 @@ const languages = [
 
 type AgriChatbotProps = {
     diagnosis: DiagnosePlantOutput | null;
+    plantName?: string;
 }
 
-export function AgriChatbot({ diagnosis }: AgriChatbotProps) {
+export function AgriChatbot({ diagnosis, plantName }: AgriChatbotProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -48,10 +49,11 @@ export function AgriChatbot({ diagnosis }: AgriChatbotProps) {
         ]);
     };
 
-    const handleSend = async () => {
-        if (!input.trim() || !language) return;
+    const handleSend = async (messageToSend?: string) => {
+        const currentMessage = messageToSend || input;
+        if (!currentMessage.trim() || !language) return;
 
-        const userMessage: Message = { role: 'user', content: input };
+        const userMessage: Message = { role: 'user', content: currentMessage };
         setMessages(prev => [...prev, userMessage]);
         setInput('');
         setIsLoading(true);
@@ -61,7 +63,7 @@ export function AgriChatbot({ diagnosis }: AgriChatbotProps) {
             const response = await chat({
                 language,
                 history,
-                message: input,
+                message: currentMessage,
                 diagnosis,
             });
             const modelMessage: Message = { role: 'model', content: response.response };
@@ -75,6 +77,47 @@ export function AgriChatbot({ diagnosis }: AgriChatbotProps) {
         }
     };
 
+    const PromptStarters = () => {
+        const starters = [];
+        if (diagnosis && !diagnosis.isHealthy) {
+            starters.push(`Tell me more about ${diagnosis.disease}.`);
+            starters.push(`How do I apply the remedy for ${diagnosis.disease}?`);
+        }
+        if (plantName) {
+            starters.push(`Give me general care tips for a ${plantName}.`);
+            starters.push(`What are common pests for a ${plantName}?`);
+        } else {
+            starters.push("What are signs of overwatering in plants?");
+        }
+
+        if (starters.length === 0) return null;
+
+        // Show prompt starters only if it's the beginning of the conversation.
+        if (messages.length > 1) return null;
+
+        return (
+            <div className="p-4 border-t">
+                <h4 className="text-sm font-semibold mb-2 flex items-center gap-2 text-muted-foreground">
+                    <Sparkles className="w-4 h-4 text-primary" />
+                    Suggestions
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                    {starters.map((starter, i) => (
+                        <Button
+                            key={i}
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleSend(starter)}
+                            className="text-xs h-auto py-1 px-2"
+                        >
+                            {starter}
+                        </Button>
+                    ))}
+                </div>
+            </div>
+        )
+    }
+
     return (
         <>
             <div className="fixed bottom-6 right-6 z-50">
@@ -84,7 +127,7 @@ export function AgriChatbot({ diagnosis }: AgriChatbotProps) {
             </div>
             {isOpen && (
                 <div className="fixed bottom-24 right-6 z-50 w-full max-w-md animate-fade-in">
-                    <Card className="shadow-2xl">
+                    <Card className="shadow-2xl flex flex-col">
                         <CardHeader className="flex flex-row items-center justify-between">
                            <div>
                              <CardTitle className="flex items-center gap-2">
@@ -98,7 +141,7 @@ export function AgriChatbot({ diagnosis }: AgriChatbotProps) {
                                <span className="sr-only">Change Language</span>
                            </Button>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="flex-1">
                             <div ref={scrollAreaRef} className="h-96 overflow-y-auto pr-4 space-y-4">
                                 {!language ? (
                                     <div className="text-center p-4">
@@ -131,28 +174,31 @@ export function AgriChatbot({ diagnosis }: AgriChatbotProps) {
                                     </div>
                                 )}
                             </div>
-                            {language && (
-                                <div className="mt-4 flex items-center gap-2">
-                                    <TextareaAutosize
-                                        value={input}
-                                        onChange={(e) => setInput(e.target.value)}
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter' && !e.shiftKey) {
-                                                e.preventDefault();
-                                                handleSend();
-                                            }
-                                        }}
-                                        placeholder="Ask about anything..."
-                                        className="w-full"
-                                        maxRows={5}
-                                    />
-                                    <Button onClick={handleSend} size="icon" disabled={isLoading || !input.trim()}>
-                                        <Send className="h-5 w-5" />
-                                        <span className="sr-only">Send</span>
-                                    </Button>
-                                </div>
-                            )}
                         </CardContent>
+                        {language && (
+                           <>
+                            <PromptStarters />
+                            <div className="p-4 border-t flex items-center gap-2">
+                                <TextareaAutosize
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && !e.shiftKey) {
+                                            e.preventDefault();
+                                            handleSend();
+                                        }
+                                    }}
+                                    placeholder="Ask about anything..."
+                                    className="w-full bg-background"
+                                    maxRows={5}
+                                />
+                                <Button onClick={() => handleSend()} size="icon" disabled={isLoading || !input.trim()}>
+                                    <Send className="h-5 w-5" />
+                                    <span className="sr-only">Send</span>
+                                </Button>
+                            </div>
+                           </>
+                        )}
                     </Card>
                 </div>
             )}

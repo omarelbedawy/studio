@@ -180,7 +180,7 @@ function DashboardPageContent() {
             </Card>
         )}
       </main>
-      <AgriChatbot diagnosis={diagnosis} />
+      <AgriChatbot diagnosis={diagnosis} plantName={plantName || undefined} />
     </div>
   );
 }
