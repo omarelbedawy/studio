@@ -16,17 +16,17 @@ const MessageSchema = z.object({
     content: z.string(),
 });
 
-export const AgriChatInputSchema = z.object({
+const AgriChatInputSchema = z.object({
   language: z.string().describe('The language for the conversation.'),
   history: z.array(MessageSchema).describe('The conversation history.'),
   message: z.string().describe('The latest user message.'),
 });
-export type AgriChatInput = z.infer<typeof AgriChatInputSchema>;
+type AgriChatInput = z.infer<typeof AgriChatInputSchema>;
 
-export const AgriChatOutputSchema = z.object({
+const AgriChatOutputSchema = z.object({
   response: z.string().describe('The AI model\'s response.'),
 });
-export type AgriChatOutput = z.infer<typeof AgriChatOutputSchema>;
+type AgriChatOutput = z.infer<typeof AgriChatOutputSchema>;
 
 
 export async function chat(input: AgriChatInput): Promise<AgriChatOutput> {
